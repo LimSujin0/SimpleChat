@@ -21,6 +21,8 @@ public class ChatServer {
 }
 
 class ChatThread extends Thread{
+	private int swear_flag = 0;
+	private String swear[] = {"바보", "바보2", "바보3", "바보4", "바보5"}; 
 	private Socket sock;
 	private String id;
 	private BufferedReader br;
@@ -44,6 +46,21 @@ class ChatThread extends Thread{
 		}
 	} // constructor
 	
+	public void donot_swear(String msg){
+		swear_flag=0;
+		for(String s: swear) {
+			if(msg.indexOf(s)>-1){
+				swear_flag=1;
+				break;
+			}
+		}
+		if(swear_flag==1) {
+			PrintWriter pw = (PrintWriter)hm.get(id);
+			pw.println("do not wear. your message is not sent");
+			pw.flush();
+		}
+	}//do not swear
+	
 	public void send_userlist() {
 		PrintWriter pw = (PrintWriter)hm.get(id);
 		String header = "\n=====show user list======";
@@ -63,12 +80,17 @@ class ChatThread extends Thread{
 		try{
 			String line = null;
 			while((line = br.readLine()) != null){
-				if(line.equals("/quit"))
-					break;
-				if(line.indexOf("/to ") == 0){
-					sendmsg(line);
-				}else
-					broadcast(id + " : " + line);
+				donot_swear(line);
+				if(swear_flag==0) {
+					if(line.equals("/quit"))
+						break;
+					if(line.indexOf("/to ") == 0)
+						sendmsg(line);
+					if(line.equals("/userlist"))
+						send_userlist();
+					else
+						broadcast(id + " : " + line);
+				}
 			}
 		}catch(Exception ex){
 			System.out.println(ex);

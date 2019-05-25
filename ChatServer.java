@@ -66,8 +66,8 @@ class ChatThread extends Thread{
 		String header = "\n=====show user list======";
 		pw.println(header);
 		synchronized(hm){
-			Collection collection = hm.keySet();
-			Iterator iter = collection.iterator();
+			Collection<String> collection = hm.keySet();
+			Iterator<String> iter = collection.iterator();
 			while(iter.hasNext()) {
 				String userlist = " user : " + (String)iter.next();
 				pw.println(userlist);
@@ -121,12 +121,16 @@ class ChatThread extends Thread{
 	} // sendmsg
 	public void broadcast(String msg){
 		synchronized(hm){
-			Collection collection = hm.values();
-			Iterator iter = collection.iterator();
+			Collection<String> collection = hm.keySet();
+			Iterator<String> iter = collection.iterator();
 			while(iter.hasNext()){
-				PrintWriter pw = (PrintWriter)iter.next();
-				pw.println(msg);
-				pw.flush();
+				String userid = (String)iter.next();
+				if(userid==id) ;
+				else {
+					PrintWriter pw = (PrintWriter) hm.get(userid);
+					pw.println(msg);
+					pw.flush();
+				}
 			}
 		}
 	} // broadcast

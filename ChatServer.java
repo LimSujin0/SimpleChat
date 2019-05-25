@@ -42,7 +42,23 @@ class ChatThread extends Thread{
 		}catch(Exception ex){
 			System.out.println(ex);
 		}
-	} // construcor
+	} // constructor
+	
+	public void send_userlist() {
+		PrintWriter pw = (PrintWriter)hm.get(id);
+		String header = "\n=====show user list======";
+		pw.println(header);
+		synchronized(hm){
+			Collection collection = hm.keySet();
+			Iterator iter = collection.iterator();
+			while(iter.hasNext()) {
+				String userlist = " user : " + (String)iter.next();
+				pw.println(userlist);
+				pw.flush();//얘 필수? 왜 예를 추가해야만 보내지지?... 아.... buffer에 저장
+			}
+		}
+	}//send user list
+	
 	public void run(){
 		try{
 			String line = null;

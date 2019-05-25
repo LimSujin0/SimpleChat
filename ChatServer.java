@@ -54,7 +54,7 @@ class ChatThread extends Thread{
 			while(iter.hasNext()) {
 				String userlist = " user : " + (String)iter.next();
 				pw.println(userlist);
-				pw.flush();//얘 필수? 왜 예를 추가해야만 보내지지?... 아.... buffer에 저장
+				pw.flush();
 			}
 		}
 	}//send user list

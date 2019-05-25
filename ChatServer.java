@@ -62,6 +62,7 @@ class ChatThread extends Thread{
 	}//do not swear
 	
 	public void send_userlist() {
+		int total = 0;
 		PrintWriter pw = (PrintWriter)hm.get(id);
 		String header = "\n=====show user list======";
 		pw.println(header);
@@ -69,10 +70,12 @@ class ChatThread extends Thread{
 			Collection<String> collection = hm.keySet();
 			Iterator<String> iter = collection.iterator();
 			while(iter.hasNext()) {
+				total++;
 				String userlist = " user : " + (String)iter.next();
 				pw.println(userlist);
 				pw.flush();
 			}
+			pw.println("total user number : " + total );
 			pw.println();
 			pw.flush();
 		}

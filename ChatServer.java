@@ -73,6 +73,8 @@ class ChatThread extends Thread{
 				pw.println(userlist);
 				pw.flush();
 			}
+			pw.println();
+			pw.flush();
 		}
 	}//send user list
 	

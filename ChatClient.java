@@ -18,7 +18,7 @@ public class ChatClient {
 			pw = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
 			br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 			BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
-			// send username.
+			// send user name.
 			pw.println(args[0]);
 			pw.flush();
 			InputThread it = new InputThread(sock, br);

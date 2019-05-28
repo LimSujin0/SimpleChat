@@ -100,7 +100,7 @@ class ChatThread extends Thread{
 		synchronized(hm){
 			//get key instea of value of hashmap for comparison of user id
 			//change printwriter type to string type. for comparison of user id
-			Collection<String> collection = hm.keySet();
+			Collection<String> collection = hm.keySet();//printer writer 자체로 구현 가능하다. 이게 더 간단쓰
 			Iterator<String> iter = collection.iterator();
 			while(iter.hasNext()){
 				String userid = (String)iter.next();
@@ -144,18 +144,15 @@ class ChatThread extends Thread{
 	//if not, flag is clear
 	//this flag will be use in run function. if flag set, cannot send message.
 	public void donot_swear(String msg){
+		PrintWriter pw = (PrintWriter)hm.get(id);
 		swear_flag=0;
 		for(String s: swear) {//bring a swear word in swear array by using for loop
 			if(msg.indexOf(s)>-1){//check whether the sentence is including swear word
 				swear_flag=1;//if there is swear word, set swear_flag
+				pw.println("do not use "+  s  + " your message is not sent "); //send user caution message
+				pw.flush();
 				break;
 			}
 		}
-		if(swear_flag==1) {//if there is a swear word
-			PrintWriter pw = (PrintWriter)hm.get(id);
-			pw.println("do not wear. your message is not sent"); //send user caution message
-			pw.flush();
-		}
 	}//do not swear
-	
 }
